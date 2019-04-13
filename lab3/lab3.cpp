@@ -28,7 +28,6 @@ void createTypes(int *matrixSizes, int *nn, MPI_Datatype *typeb, MPI_Datatype *t
 	MPI_Type_commit(typeb); //регистрируем новый производный тип 
 	//Только после регистрации новый производный тип можно использовать в коммуникационных подпрограммах и при конструировании других типов
 
-
 	MPI_Type_vector(nn[0], nn[1], matrixSizes[2], MPI_DOUBLE, &types); //разбиение для С
 	MPI_Type_create_resized(types, 0, sizeofdouble * nn[1], typec);
 	MPI_Type_commit(typec);
@@ -93,7 +92,7 @@ void calculate(int *matrixSizes, double *A, double *B, double *C, int *dims, MPI
 
 		for (int i = 0; i < dims[0]; i++) {
 			for (int j = 0; j < dims[1]; j++) {
-				dispc[i * dims[1] + j] = (i * dims[1] * nn[0] + j); 
+				dispc[i * dims[1] + j] = (i * dims[1] * nn[0] + j); //dims[1] * nn[0] это и есть смещение на подматрицу
 				recvcountc[i * dims[1] + j] = 1;
 			}
 		}
